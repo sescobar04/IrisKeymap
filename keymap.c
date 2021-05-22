@@ -16,16 +16,10 @@ enum custom_keycodes {
   ADJUST,
 };
 
-enum {
-   CTL_SWAP,
-};
-
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-  
   [_COLEMAK] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
@@ -36,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,         XXXXXXX,  KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    KC_LGUI, LOWER,   CTL_SWAP,                  KC_SPC,  RAISE,   KC_RALT
+                                    KC_LGUI, LOWER,   KC_LCTL,                     KC_SPC,  RAISE,   KC_RALT
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
   [_GAMING] = LAYOUT(
@@ -96,19 +90,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
-const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
-   //{COL,ROW}
-   {{5,0}, {4,0}, {3,0}, {2,0}, {1,0}, {0,0}},
-   {{5,1}, {4,1}, {3,1}, {2,1}, {1,1}, {0,1}},
-   {{5,2}, {4,2}, {3,2}, {2,2}, {1,2}, {0,2}},
-   {{5,3}, {4,3}, {3,3}, {2,3}, {1,3}, {0,3}},
-   {{5,4}, {4,4}, {3,4}, {2,4}, {1,4}, {0,4}},
-   {{5,5}, {4,5}, {3,5}, {2,5}, {1,5}, {0,5}},
-   {{5,6}, {4,6}, {3,6}, {2,6}, {1,6}, {0,6}},
-   {{5,7}, {4,7}, {3,7}, {2,7}, {1,7}, {0,7}},
-   {{5,8}, {4,8}, {3,8}, {2,8}, {1,8}, {0,8}},
-   {{5,9}, {4,9}, {3,9}, {2,9}, {1,9}, {0,9}},
-};
+// const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
+//    /* Left hand, matrix positions */
+//     {{0,5}, {1,5}, {2,5}, {3,5}, {4,5}, {5,5}},
+//     {{0,6}, {1,6}, {2,6}, {3,6}, {4,6}, {5,6}},
+//     {{0,7}, {1,7}, {2,7}, {3,7}, {4,7}, {5,7}},
+//     {{0,8}, {1,8}, {2,8}, {3,8}, {4,8}, {5,8}},
+//     {{0,9}, {1,9}, {2,9}, {3,9}, {4,9}, {5,9}},
+//     /* Right hand, matrix positions */
+//     {{0,0}, {1,0}, {2,0}, {3,0}, {4,0}, {5,0}},
+//     {{0,1}, {1,1}, {2,1}, {3,1}, {4,1}, {5,1}},
+//     {{0,2}, {1,2}, {2,2}, {3,2}, {4,2}, {5,2}},
+//     {{0,3}, {1,3}, {2,3}, {3,3}, {4,3}, {5,3}},
+//     {{0,4}, {1,4}, {2,4}, {3,4}, {4,4}, {5,4}},
+// };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -137,7 +132,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RAISE:
       if (record->event.pressed) {
         layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);      } else {
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);      
+      } else {
         layer_off(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
@@ -207,6 +203,6 @@ void matrix_scan_user(void) {
   }
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
-   [CTL_SWAP] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, SH_TT),
-};
+// qk_tap_dance_action_t tap_dance_actions[] = {
+//    [CTL_SWAP] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, SH_TT),
+// };
